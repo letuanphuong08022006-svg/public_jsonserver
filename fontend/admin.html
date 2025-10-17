@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin - Quản lý sản phẩm</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body class="bg-gray-100 font-sans text-gray-800">
+
+  <!-- Header -->
+  <header class="sticky top-0 z-50 bg-white shadow">
+    <div class="bg-gray-50 border-b border-gray-200 text-sm text-gray-600">
+      <div class="max-w-7xl mx-auto flex justify-between items-center px-4 py-2">
+        <p>Hotline: <span class="text-orange-500 font-semibold">1800 1234</span></p>
+        <div class="space-x-4">
+          <a href="#" class="hover:text-orange-500 transition">Giới thiệu</a>
+          <a href="#" class="hover:text-orange-500 transition">Liên hệ</a>
+        </div>
+      </div>
+    </div>
+    <div class="max-w-7xl mx-auto flex justify-between items-center px-6 py-4">
+      <a href="#" class="flex items-center text-2xl font-extrabold text-orange-500 gap-2">
+        <i class="fa-solid fa-cog"></i> Admin Panel
+      </a>
+      <div class="flex-1 max-w-md relative">
+        <input type="text" placeholder="Tìm kiếm sản phẩm..." 
+               class="w-full border border-gray-300 rounded-lg py-2 pl-4 pr-10 focus:outline-none focus:ring-2 focus:ring-orange-400"/>
+        <i class="fa-solid fa-magnifying-glass absolute right-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+      </div>
+      <a href="#" class="flex items-center gap-2 border-2 border-orange-500 text-orange-500 px-4 py-2 rounded-lg font-semibold hover:bg-orange-500 hover:text-white transition">
+        <i class="fa-solid fa-cart-shopping"></i> Giỏ hàng
+      </a>
+    </div>
+  </header>
+
+  <!-- Container -->
+  <div class="max-w-7xl mx-auto px-6 py-10">
+
+    <h1 class="text-3xl font-bold text-gray-800 mb-6 flex items-center gap-3">
+      <i class="fas fa-box"></i> Quản lý sản phẩm
+    </h1>
+
+    <!-- Navigation -->
+    <ul class="flex gap-4 mb-6">
+      <li>
+        <button class="nav-link px-4 py-2 bg-orange-500 text-white rounded-lg font-semibold focus:outline-none">
+          Sản phẩm
+        </button>
+      </li>
+      <li>
+        <button class="nav-link px-4 py-2 bg-gray-200 text-gray-700 rounded-lg font-semibold focus:outline-none">
+          Câu hỏi
+        </button>
+      </li>
+    </ul>
+
+    <!-- Add Button -->
+    <button id="open-add-course-modal" class="mb-4 bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 font-semibold transition">
+      <i class="fas fa-plus"></i> Thêm sản phẩm
+    </button>
+
+    <!-- Table -->
+    <div class="overflow-x-auto bg-white rounded-xl shadow">
+      <table class="min-w-full text-left">
+        <thead class="bg-gray-100 text-gray-700 uppercase text-sm">
+          <tr>
+            <th class="py-3 px-4">ID</th>
+            <th class="py-3 px-4">Tên</th>
+            <th class="py-3 px-4">Giá</th>
+            <th class="py-3 px-4">Hình ảnh</th>
+            <th class="py-3 px-4">Danh mục</th>
+            <th class="py-3 px-4">Hot</th>
+            <th class="py-3 px-4">Mô tả</th>
+            <th class="py-3 px-4">Thao tác</th>
+          </tr>
+        </thead>
+        <tbody id="course-list" class="divide-y divide-gray-200">
+          <!-- JS render data -->
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+  <!-- Modal -->
+<!-- Modal -->
+<!-- Modal -->
+<!-- Modal -->
+<div id="course-modal" class="fixed inset-0 hidden bg-black bg-opacity-50 flex items-center justify-center z-50 overflow-y-auto">
+  <div class="bg-white rounded-2xl shadow-xl w-full max-w-lg p-6 md:p-8 transform scale-90 opacity-0 transition-all duration-300 relative mx-4 my-8
+              max-h-[90vh] overflow-y-auto">
+    <!-- Close button -->
+    <button id="close-course-modal" class="absolute top-4 right-4 text-gray-400 hover:text-orange-500 text-3xl font-bold transition">&times;</button>
+
+    <!-- Title -->
+    <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-6 text-center">Thêm / Sửa Sản phẩm</h2>
+
+    <!-- Form -->
+    <form id="course-form" class="flex flex-col gap-5">
+      <input type="hidden" id="course-id">
+
+      <!-- Name -->
+      <div class="flex flex-col gap-2">
+        <label for="course-name" class="font-semibold text-gray-700">Tên sản phẩm</label>
+        <input type="text" id="course-name" class="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-orange-400 focus:outline-none shadow-sm" required>
+      </div>
+
+      <!-- Price -->
+      <div class="flex flex-col gap-2">
+        <label for="course-price" class="font-semibold text-gray-700">Giá sản phẩm (VNĐ)</label>
+        <input type="number" id="course-price" class="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-orange-400 focus:outline-none shadow-sm" required min="0">
+      </div>
+
+      <!-- Image URL -->
+      <div class="flex flex-col gap-2">
+        <label for="course-image" class="font-semibold text-gray-700">URL hình ảnh</label>
+        <input type="text" id="course-image" class="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-orange-400 focus:outline-none shadow-sm" placeholder="https://..." required>
+      </div>
+
+      <!-- Category -->
+      <div class="flex flex-col gap-2">
+        <label for="course-category" class="font-semibold text-gray-700">Danh mục</label>
+        <select id="course-category" class="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-orange-400 focus:outline-none shadow-sm" required>
+          <option value="">-- Chọn danh mục --</option>
+          <option value="điện thoại">Điện thoại</option>
+          <option value="laptop">Laptop</option>
+          <option value="tablet">Tablet</option>
+          <option value="phụ kiện">Phụ kiện</option>
+        </select>
+      </div>
+
+      <!-- Hot -->
+      <div class="flex items-center gap-3">
+        <input type="checkbox" id="course-hot" class="w-5 h-5 accent-orange-500">
+        <label for="course-hot" class="font-semibold text-gray-700">Sản phẩm Hot</label>
+      </div>
+
+      <!-- Description -->
+      <div class="flex flex-col gap-2">
+        <label for="course-description" class="font-semibold text-gray-700">Mô tả</label>
+        <textarea id="course-description" class="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-orange-400 focus:outline-none shadow-sm" rows="5" required></textarea>
+      </div>
+
+      <!-- Submit button -->
+      <button type="submit" class="bg-orange-500 hover:bg-orange-600 text-white px-6 py-3 rounded-xl font-semibold flex items-center justify-center gap-2 transition shadow-md">
+        <i class="fas fa-save"></i> Lưu
+      </button>
+    </form>
+  </div>
+</div>
+
+
+  <script src="main.js"></script>
+</body>
+</html>
